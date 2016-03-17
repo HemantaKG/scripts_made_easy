@@ -11,8 +11,9 @@
 import sys, getopt, subprocess, crypt
 
 def main(comm_argv):
-  user_name= ''
+        user_name= ''
 	group_name= ''
+	user_subject= ''
 	
 	home_dir= ''
 	scratch_dir= ''
@@ -21,13 +22,15 @@ def main(comm_argv):
 	user_group= ''
 	group_details= ''
 	gid= ''
+	
+	user_subjectdetails= ''
 
 	# check for Number of arguments must be greater than 1
-	if len(sys.argv) >1 and (sys.argv[1]== '--username') and (sys.argv[3]== '--usergroup'):
+	if len(sys.argv) >1 and (sys.argv[1]== '--username') and (sys.argv[3]== '--usergroup') and (sys.argv[5]== '--usersubject'):
 		try:
-			option_list, argumrnt_list= getopt.getopt(comm_argv, '',["username=", "usergroup="]) # store command line inputs into (option, argument) list
+			option_list, argumrnt_list= getopt.getopt(comm_argv, '',["username=", "usergroup=", "usersubject="]) # store command line inputs into (option, argument) list
 		except getopt.GetoptError: 
-			print 'create_user_accounts.py --username hemant --usergroup ICTS' # print the input format
+			print 'create_user_accounts.py --username hemant --usergroup ICTS --usersubject asdf' # print the input format
 			sys.exit(2)
 		# featch argument values from list
 		for option, arg in option_list:
@@ -35,12 +38,15 @@ def main(comm_argv):
 				user_name= arg
 			elif option== '--usergroup':
 				group_name= arg
+			elif option== '--usersubject':
+			        user_subject= arg
 	else: 
-		print 'create_user_accounts.py --username hemant --usergroup ICTS # print the input format
+		print 'create_user_accounts.py --username hemant --usergroup ICTS --usersubject asdf' # print the input format
 		sys.exit(2)	
 
 	#print 'username: ', user_name
 	#print 'groupname', group_name
+	#print 'usersubject', user_subject
 
 	home_dir= "/home/"+ user_name
 	scratch_dir= "/scratch/"+ user_name
@@ -63,7 +69,7 @@ def main(comm_argv):
 	#generating crpt passwd for user
 	#password= subprocess.check_output(["openssl", "passwd", "-crypt", "mypassw0rd"])
 	
-	#add user with specific home directory and specific group with passws 'aaaa'
+	#add user with specific home directory and specific group
 	subprocess.call(["useradd", "-d", home_dir, "-g", gid, "-p", crypt.crypt('aaaa','11'), user_name])
 	
 	#add user to a existing group
@@ -75,6 +81,10 @@ def main(comm_argv):
 	subprocess.call(["chown", user_group, home_dir, scratch_dir])
 	subprocess.call(["chmod", "755", home_dir,])
 	subprocess.call(["chmod", "750", scratch_dir])
+	
+	user_subjectdetails= user_name+ " "+ user_subject+ "\n"
+	with open('/etc/gridusermap', 'a') as file:
+	        file.write(user_subjectdetails)
 
 if __name__ == "__main__":
 	main(sys.argv[1:])
