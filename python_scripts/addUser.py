@@ -4,7 +4,7 @@
 # 3. add user to given groupname
 # 4. change like READ,EXE for own group, ALL for user and NONE for others to /scratch/username 
 # 5. change like READ,EXX for own group and others and ALL for own to /home/username
-# 
+# 6. with password "aaaa"
 # RUN EXAMPLE: AddAliceUser --username <...> --groupname <...>
 
 #!/usr/bin/python
