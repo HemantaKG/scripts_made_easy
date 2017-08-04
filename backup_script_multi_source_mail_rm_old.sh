@@ -12,19 +12,21 @@
 # DT20170801
 ################################################################################################################################
 
-#source directory list
+#source directory list modifi as per your source locations
 SOURCE_LIST=(/home/hemanta/hm_etc/convert_csv_cfg /home/hemanta/hm_etc/hpc_inter)
-#destination host fully qualified host name
+#destination host fully qualified host name modifi as per your destination host 
 DESTINATION_HOST="hemanta@mario.icts.res.in"
-#destination location
+#destination location modifi as per your destination location
 DESTINATION_LOC="/home/hemanta/"
+#no of day backup you what to keep
 KEEP_BACKUP_UPTO_DAYS=8
+#defaul value is '0' if any error occures it set to '1'
 PROBLEM=0
 
-#Log file details
+#Log file location details
 LOGFILE_LOC=$(pwd)
 LOG_FILE=${LOGFILE_LOC}"/_backup_script.log"
-
+#error file location details
 ERRORFILE_LOC=$(pwd)
 ERR_FILE=${ERRORFILE_LOC}"/_backup_script.err"
 
@@ -79,6 +81,7 @@ if [ ${PROBLEM} -ne 0 ]; then
 	#printf '%s\n' "$EMAIL_SUBJECT"| /usr/bin/mail -s "`hostname`: Backup Failed!!" root@localhost italert@icts.res.in
 else
 	OLD_TAR_LIST=("$( ls -t /home/hemanta/hm_etc/archive/ )")
+	#remove the last "KEEP_BACKUP_UPTO_DAYS-1" days old backup tar from location storage
 	COUNT=0
 	for i in ${OLD_TAR_LIST[@]}; do
 		COUNT=$((COUNT+1))
