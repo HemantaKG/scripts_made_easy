@@ -40,7 +40,7 @@ mysqldump_loc="/home/hemanta/"
 #source directory; NOTE: change as per your requirement
 source_data_dir="/home/hemanta/slurm_test"
 #destination machine host FQHN; NOTE: change as per your requirement
-destination_host="hemanta@172.16.40.27"
+destination_host="hemanta@xx.xx.xx"
 #destination location; NOTE: change as per your requirement
 mysqldump_destination_loc="/home/hemanta/Desktop/"
 data_destination_loc="/home/hemanta/Desktop/"
